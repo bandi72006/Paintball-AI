@@ -7,6 +7,8 @@ class Player:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.xVel = 0
+        self.yVel = 0
         self.speed = 0
         self.rotation = 0
 
@@ -25,11 +27,11 @@ class Player:
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.rotation += 0.3
 
-        changeInX = math.cos(math.radians(self.rotation))*self.speed #have to convert degrees to radians
-        changeInY = math.sin(math.radians(self.rotation))*self.speed
+        self.xVel = math.cos(math.radians(self.rotation))*self.speed #have to convert degrees to radians
+        self.yVel = math.sin(math.radians(self.rotation))*self.speed
 
-        self.x -= changeInX
-        self.y += changeInY
+        self.x -= self.xVel
+        self.y += self.yVel
 
         if self.x >= 1280:
             self.x = 1
