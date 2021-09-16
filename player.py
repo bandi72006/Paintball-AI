@@ -3,6 +3,8 @@
 import pygame
 import math
 
+
+
 class Player:
     def __init__(self, x, y):
         self.x = x
@@ -14,10 +16,10 @@ class Player:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] or keys[pygame.K_w]:
             if self.speed <= 0.5:
-                self.speed += 0.001
+                self.speed += 0.01
         else:
             if self.speed >= 0:
-                self.speed -= 0.0005
+                self.speed -= 0.005
 
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.rotation -= 0.3
