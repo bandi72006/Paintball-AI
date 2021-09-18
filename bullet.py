@@ -6,10 +6,11 @@ class Bullet:
         self.y = y
         self.xVel = xVel
         self.yVel = yVel
+        self.radius = 3
 
     def move(self):
         self.x -= self.xVel*10
         self.y += self.yVel*10
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (255,0,0), (self.x, self.y), 3)
+        pygame.draw.circle(screen, (255,0,0), (self.x, self.y), self.radius)
