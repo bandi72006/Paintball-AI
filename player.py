@@ -14,16 +14,18 @@ class Player:
         self.yVel = 0
         self.speed = 0
         self.rotation = 0
-        self.rotationSpeed = 0.6
+        self.rotationSpeed = 5
 
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] or keys[pygame.K_w]:
-            if self.speed <= 0.5:
-                self.speed += 0.01
+            if self.speed <= 7:
+                self.speed += 0.4
         else:
-            if self.speed >= 0:
-                self.speed -= 0.005
+            if self.speed > 0:
+                self.speed -= 0.5
+            else: 
+                self.speed = 0
 
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.rotation -= self.rotationSpeed
@@ -31,11 +33,11 @@ class Player:
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.rotation += self.rotationSpeed
 
-        self.xVel = math.cos(math.radians(self.rotation))*self.speed #have to convert degrees to radians
-        self.yVel = math.sin(math.radians(self.rotation))*self.speed
+        self.xVel = math.cos(math.radians(self.rotation)) #have to convert degrees to radians
+        self.yVel = math.sin(math.radians(self.rotation))
 
-        self.x -= self.xVel
-        self.y += self.yVel
+        self.x -= self.xVel*self.speed
+        self.y += self.yVel*self.speed
 
         if self.x >= 1280:
             self.x = 1
