@@ -29,7 +29,7 @@ class Player:
         #    if self.speed <= 7:
         #        self.speed += 0.4
         if self.speed > 0:
-            self.speed -= 0.5
+            self.speed -= 0.2
         else: 
             self.speed = 0
 
@@ -81,7 +81,7 @@ class Player:
 
     def straight(self):
         if self.speed <= 7:
-            self.speed += 0.4
+            self.speed += 1
 
     def shoot(self):
         if len(self.bullets) <=  10:

@@ -89,7 +89,7 @@ def run(configFile):
     stats = neat.StatisticsReporter()
     population.add_reporter(stats)
 
-    winner = population.run(main, 50)
+    winner = population.run(main, 150)
 
 if __name__ == "__main__":
     localDir = os.path.dirname(__file__) #Give us path to current directory
