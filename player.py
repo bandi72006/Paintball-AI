@@ -15,23 +15,25 @@ class Player:
         self.speed = 0
         self.rotation = 0
         self.rotationSpeed = 5
+        self.shot = False
 
     def move(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
-            if self.speed <= 7:
-                self.speed += 0.4
-        else:
-            if self.speed > 0:
-                self.speed -= 0.5
-            else: 
-                self.speed = 0
+        
+        #if keys[pygame.K_UP] or keys[pygame.K_w]:
+        #    if self.speed <= 7:
+        #        self.speed += 0.4
+        if self.speed > 0:
+            self.speed -= 0.5
+        else: 
+            self.speed = 0
 
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.rotation -= self.rotationSpeed
+        #if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+        #    self.rotation -= self.rotationSpeed
 
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.rotation += self.rotationSpeed
+        
+        #if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        #    self.rotation += self.rotationSpeed
 
         self.xVel = math.cos(math.radians(self.rotation)) #have to convert degrees to radians
         self.yVel = math.sin(math.radians(self.rotation))
@@ -48,6 +50,19 @@ class Player:
             self.y = 1
         if self.y <= 0:
             self.y = 719
+
+    def right(self):
+        self.rotation -= self.rotationSpeed
+
+    def left(self):
+        self.rotation += self.rotationSpeed
+
+    def straight(self):
+        if self.speed <= 7:
+            self.speed += 0.4
+
+    def shoot(self):
+        self.shot = True
 
     def draw(self, screen):
         pygame.draw.circle(screen, (255,255,255), (self.x, self.y), 20)
