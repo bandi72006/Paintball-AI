@@ -2,8 +2,10 @@
 
 import pygame
 import math
+import random
 
-
+from bullet import *
+from target import *
 
 class Player:
 
@@ -15,9 +17,12 @@ class Player:
         self.speed = 0
         self.rotation = 0
         self.rotationSpeed = 5
-        self.shot = False
+        self.bullets = []
+        self.bulletClock = 0
+        self.target = Target(random.randint(0,1280), random.randint(0,720))
 
-    def move(self):
+    def move(self, g):
+        self.bulletClock += 1
         keys = pygame.key.get_pressed()
         
         #if keys[pygame.K_UP] or keys[pygame.K_w]:
@@ -51,6 +56,23 @@ class Player:
         if self.y <= 0:
             self.y = 719
 
+        for bullet in self.bullets:
+            bullet.move()
+            
+            if bullet.x >= 1280:
+                self.bullets.remove(bullet)
+            elif bullet.x <= 0:
+                self.bullets.remove(bullet)
+
+            elif bullet.y >= 720:
+                self.bullets.remove(bullet)
+            elif bullet.y <= 0:
+                self.bullets.remove(bullet)
+
+            elif self.target.hit(bullet):
+                    self.bullets.remove(bullet)
+                    g.fitness += 10
+
     def right(self):
         self.rotation -= self.rotationSpeed
 
@@ -62,8 +84,15 @@ class Player:
             self.speed += 0.4
 
     def shoot(self):
-        self.shot = True
+        if len(self.bullets) <=  10:
+            if self.bulletClock > 15:
+                self.bullets.append(Bullet(self.x, self.y, self.xVel, self.yVel))
+                self.bulletClock = 0
+
 
     def draw(self, screen):
         pygame.draw.circle(screen, (255,255,255), (self.x, self.y), 20)
         pygame.draw.circle(screen, (0,0,0), (self.x - math.cos(math.radians(self.rotation))*17, self.y + math.sin(math.radians(self.rotation))*17),2)
+        for bullet in self.bullets:
+            bullet.draw(screen)
+        self.target.draw(screen)

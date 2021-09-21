@@ -33,28 +33,16 @@ def main(genomes, config):
         g.fitness = 0
         ge.append(g)
 
-    bullets = []
-    bulletClock = 0
-
-    target = Target(random.randint(0,1280), random.randint(0,720))
-
     while run:  
 
         frames += 1
 
         keys = pygame.key.get_pressed()
-        for player in players:
-            #if keys[K_SPACE]:
-            if player.shot == True:
-                if len(bullets) <=  10:
-                    if bulletClock > 15:
-                        bullets.append(Bullet(player.x, player.y, player.xVel, player.yVel))
-                        bulletClock = 0
-                        player.shot = False
+        for i, player in enumerate(players):
 
 
-            player.move()
-            output = nets[players.index(player)].activate((player.x, player.y, target.x, target.y))
+            player.move(ge[i])
+            output = nets[players.index(player)].activate((player.x, player.y, player.target.x, player.target.y))
 
             if output[0] > 0.5: #tanh =-> [-1, 1] so 0.5 = 75%
                 player.right()        
@@ -65,35 +53,12 @@ def main(genomes, config):
             if output[3] > 0.5: #tanh =-> [-1, 1] so 0.5 = 75%
                 player.shoot()
 
-        for bullet in bullets:
-            bullet.move()
-
-            for g in ge:
-                if target.hit(bullet):
-                    bullets.remove(bullet)
-                    g.fitness += 10
-
-            if bullet.x >= 1280:
-                bullets.remove(bullet)
-            elif bullet.x <= 0:
-                bullets.remove(bullet)
-
-            elif bullet.y >= 720:
-                bullets.remove(bullet)
-            elif bullet.y <= 0:
-                bullets.remove(bullet)
-
-        bulletClock += 1
-
         #Animation code
 
         screen.fill((0,150,0))
 
-        target.draw(screen)
         for player in players:
             player.draw(screen)
-        for bullet in bullets:
-            bullet.draw(screen)
 
         for event in pygame.event.get():  
             if event.type == pygame.QUIT:  
